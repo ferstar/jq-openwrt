@@ -1,4 +1,4 @@
-This is an Makefile to let OpenWrt users compile and install jq on their devices
+This is a Makefile to let OpenWrt users compile and install jq on their devices
 
 You can find more info of jq here `https://stedolan.github.io/jq/`.
 
