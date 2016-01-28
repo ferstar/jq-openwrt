@@ -8,11 +8,13 @@ PKG_NAME:=jq
 PKG_VERSION:=1.5
 PKG_RELEASE:=
 
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://github.com/stedolan/jq/releases/download/$(PKG_NAME)-$(PKG_VERSION)/$(PKG_SOURCE)
-PKG_MD5SUM:=0933532b086bd8b6a41c1b162b1731f9
+PKG_SOURCE_URL:=https://github.com/stedolan/jq
+PKG_SOURCE_PROTO:=git
+PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
+PKG_SOURCE_VERSION:=1740fd036dc6ab464ef0937a0f3fc81618886837
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_VERSION).tar.gz
 
-PKG_FIXUP:=autoreconf
+PKG_FIXUP:=autoreconf -i
 PKG_INSTALL:=1
 
 include $(INCLUDE_DIR)/package.mk
@@ -25,14 +27,19 @@ define Package/jq
   URL:=
 endef
 
+
+
 define Build/Compile
-	$(TARGET_CONFIGURE_OPTS) CFLAGS="$(TARGET_CFLAGS) -I$(STAGING_DIR)/usr/include -I$(LINUX_DIR)/include -std=gnu99"  LDFLAGS="$(TARGET_LDFLAGS)" 
-	$(MAKE) -C $(PKG_BUILD_DIR)
+	$(MAKE) -C $(PKG_BUILD_DIR) CFLAGS=-msoft-float
 endef
 
 define Package/jq/install
-	$(INSTALL_DIR) $(1)/usr/sbin
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/jq $(1)/usr/sbin
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/jq $(1)/usr/bin/
+	$(INSTALL_DIR) $(1)/usr/lib
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/* $(1)/usr/lib/
+	
+
 endef
 
 $(eval $(call BuildPackage,jq))
