@@ -1,3 +1,9 @@
+编译方式见: https://blog.ferstar.org/post/deploy-xfrp-on-openwrt/
+
+需要下载SDK及toolchain
+
+---
+
 This is a Makefile to let OpenWrt users compile and install jq on their devices
 
 You can find more info of jq here `https://stedolan.github.io/jq/`.
